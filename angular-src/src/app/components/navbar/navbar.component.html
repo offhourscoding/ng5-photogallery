@@ -1,0 +1,7 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <button mat-icon-button (click)="toggleSideNavClick()"><mat-icon>menu</mat-icon></button>
+        <span>Photo Gallery</span>
+        <button mat-button [routerLinkActive]="['active']" [routerLinkActiveOptions]="{extended: true}" [routerLink]="['']"><mat-icon>home</mat-icon> Home</button>
+    </mat-toolbar-row>
+</mat-toolbar>

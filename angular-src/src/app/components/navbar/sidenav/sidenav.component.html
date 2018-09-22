@@ -1,0 +1,14 @@
+<mat-sidenav-container>
+    <mat-sidenav #sidenav mode="side" [opened]="state" [fixedInViewport]="true">
+        <mat-nav-list *ngIf="albumsObservable | async; let albums; else loading">
+            <button mat-raised-button color="primary" (click)="addAlbumClick()"><mat-icon>add</mat-icon> Add Album</button>
+            <hr>
+            <!-- <a mat-list-item (click)="closeSideNav()" *ngFor="let album of albums" [routerLink]="['gallery', album._id]">{{ album.name }}</a> -->
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content style="background-color: #fff;">
+        <app-navbar></app-navbar>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+<ng-template #loading>Loading ...</ng-template>
