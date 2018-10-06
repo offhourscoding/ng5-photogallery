@@ -1,3 +1,16 @@
-<p>
-  add-album works!
-</p>
+<form [formGroup]="addAlbumForm" (ngSubmit)="submitAlbumClick()">
+    <h1 mat-dialog-title>Add Album</h1>
+    <mat-dialog-content>
+        <mat-form-field>
+            <input matInput formControlName="albumName" type="text" placeholder="Album Name">
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <input matInput formControlName="albumDescription" type="text" placeholder="Description">
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button type="submit">Add</button>
+        <button mat-button mat-dialog-close type="button">Cancel</button>
+    </mat-dialog-actions>
+</form>

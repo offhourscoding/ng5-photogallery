@@ -53,7 +53,7 @@ router.post('/', (req, res, next) => {
             return res.json({ error: err });
         }
 
-        res.json({ album: data });
+        res.json({ data });
     });
 });
 

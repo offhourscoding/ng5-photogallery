@@ -3,7 +3,7 @@
         <mat-nav-list *ngIf="albumsObservable | async; let albums; else loading">
             <button mat-raised-button color="primary" (click)="addAlbumClick()"><mat-icon>add</mat-icon> Add Album</button>
             <hr>
-            <!-- <a mat-list-item (click)="closeSideNav()" *ngFor="let album of albums" [routerLink]="['gallery', album._id]">{{ album.name }}</a> -->
+            <a mat-list-item (click)="closeSideNav()" *ngFor="let album of albums" [routerLink]="['gallery', album._id]">{{ album.name }}</a>
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content style="background-color: #fff;">

@@ -1,3 +1,4 @@
+import { AlbumService } from './services/album.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,7 +14,8 @@ import { AddAlbumComponent } from './components/add-album/add-album.component';
 import { SidenavComponent } from './components/navbar/sidenav/sidenav.component';
 import { HomeComponent } from './components/home/home.component';
 import { NavbarService } from './services/navbar.service';
-
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,8 +31,12 @@ import { NavbarService } from './services/navbar.service';
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
-  providers: [NavbarService],
+  entryComponents: [AddAlbumComponent],
+  providers: [NavbarService, AlbumService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
