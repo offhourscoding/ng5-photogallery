@@ -1,30 +1,32 @@
-import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Album } from '../classes/album';
+import { Observable } from 'rxjs/Observable';
+import { Subscriber } from 'rxjs/Subscriber';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/from';
 
 @Injectable()
 export class AlbumService {
 
-  albums: Array<Album> = [];
+  albums: Array<any> = [];
 
   constructor(private http: HttpClient) { }
 
-  getAlbum(id): Observable<Album> {
+  getAlbum(id): Observable<any> {
     let headers = new HttpHeaders();
-    headers = headers.set('Content-type', 'application/json');
+    headers = headers.set('Content-type', 'appliction/json');
     return this.http.get('/api/albums/' + id, { headers: headers });
   }
-
-  getAlbums(): Observable<Album[]> {
+  getAlbums(): Observable<any> {
     let headers = new HttpHeaders();
-    headers = headers.set('Content-type', 'application/json');
-    return this.http.get<Album[]>('/api/albums', { headers: headers });
+    headers = headers.set('Content-type', 'appliction/json');
+    return this.http.get('/api/albums', { headers: headers });
   }
 
-  addAlbum(album: any): Observable<Album> {
+  addAlbum(album: Album): Observable<any> {
     let headers = new HttpHeaders();
-    headers = headers.set('Content-type', 'application/json');
-    return this.http.post('/api/albums', { headers: headers });
+    headers = headers.set('Content-Type', 'application/json');
+    return this.http.post('/api/albums', album, { headers: headers });
   }
 }

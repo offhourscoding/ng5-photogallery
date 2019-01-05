@@ -1,7 +1,8 @@
-import { AlbumService } from './../../services/album.service';
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
+import { AlbumService } from '../../services/album.service';
 import { Album } from '../../classes/album';
 
 @Component({
@@ -34,5 +35,4 @@ export class AddAlbumComponent implements OnInit {
         this.dialogRef.close(res);
       });
   }
-
 }

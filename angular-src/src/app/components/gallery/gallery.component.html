@@ -1,3 +1,69 @@
-<p>
-  gallery works!
-</p>
+<div class="container">
+
+    <!-- Album Info -->
+    <div class="header">
+        <h1>{{ album.name }}</h1>
+        <p *ngIf="album.description">{{ album.description }}</p>
+    </div>
+
+    <div class="wrapper">
+
+        <!-- Image Upload -->
+        <div class="upload-container">
+            <mat-card class="upload-card">
+                <mat-card-title>Picture Upload</mat-card-title>
+                <mat-card-content>
+                    <input type="file" ng2FileSelect [uploader]="uploader" multiple />
+                </mat-card-content>
+            </mat-card>
+            <mat-card class="queue-card">
+                <mat-card-title>Upload Queue</mat-card-title>
+                <mat-card-subtitle>
+                    Queue length: {{ uploader?.queue?.length }}
+                </mat-card-subtitle>
+                <mat-card-actions>
+                    <button mat-raised-button color="primary" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+            <mat-icon>add</mat-icon>
+            Upload
+          </button>
+                </mat-card-actions>
+                <mat-card-content>
+                    <table class="table" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of uploader.queue">
+                                <td>{{ item?.file?.name }}</td>
+                                <td class="text-center">
+                                    <span *ngIf="item.isSuccess">Success</span>
+                                    <span *ngIf="item.isCancel">Cancelled</span>
+                                    <span *ngIf="item.isError">Errors</span>
+                                </td>
+                                <td nowrap>
+                                    <button mat-button type="button" (click)="item.remove()">
+                    Remove
+                  </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+        <!-- Images -->
+        <div class="content">
+            <mat-card class="card" *ngFor="let picture of pictures">
+                <a [href]="picture" target="_blank">
+                    <img class="card-img" [src]="picture" alt="image">
+                </a>
+                <button mat-raised-button color="warn">Remove</button>
+            </mat-card>
+        </div>
+    </div>
+</div>

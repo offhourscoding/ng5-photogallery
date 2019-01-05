@@ -1,0 +1,45 @@
+.body {
+    background-color: #000;
+}
+
+.wrapper {
+    background: rgb(240, 240, 240);
+}
+
+.header {
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+.content {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 1em;
+}
+
+.card {
+    max-width: 960px;
+    /* margin: 0 auto 30px; */
+}
+
+.card img {
+    height: 250px;
+    width: 100%;
+}
+
+a:hover img {
+    transform: scale(1.10);
+}
+
+.upload-container {
+    padding-top: 5px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 0.5em;
+}
+
+.upload-card,
+.queue-card {
+    text-align: center;
+}

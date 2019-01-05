@@ -8,6 +8,9 @@ const Album = require('../models/album');
 const DIR = 'public/uploads';
 const upload = multer({ desc: DIR });
 
+// Seperate file for picture operations
+// router.use('/:id/pictures', require('./pictures'));
+
 // TEST //
 router.get('/test', (req, res, next) => {
     res.send('Hello, Friend!');
@@ -53,9 +56,13 @@ router.post('/', (req, res, next) => {
             return res.json({ error: err });
         }
 
-        res.json({ data });
+        res.json({ album: data });
     });
 });
+
+// router.post('/:id/pictures', upload.single('picture'), (req, res) => {
+
+// });
 
 // PUT //
 router.put('/:id', (req, res, next) => {
