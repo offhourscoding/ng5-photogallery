@@ -1,22 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path');
-const fs = require('fs');
-const multer = require('multer');
 
 const Album = require('../models/album');
-const DIR = 'public/uploads';
-const upload = multer({ desc: DIR });
+const Picture = require('../models/picture');
 
-// Seperate file for picture operations
-// router.use('/:id/pictures', require('./pictures'));
-
-// TEST //
+/**
+ * Test Route
+ */
 router.get('/test', (req, res, next) => {
     res.send('Hello, Friend!');
 });
 
-// GET //
+//// GETs ////
+
+/**
+ * Get names and descriptions of all photo galleries
+ */
 router.get('/', (req, res, next) => {
     Album.getAll((err, data) => {
         if (err) {
@@ -26,25 +25,36 @@ router.get('/', (req, res, next) => {
     });
 });
 
+/**
+ * Get name, description, and photo IDs of a spesific album
+ */
 router.get('/:id', (req, res, next) => {
     Album.get(req.params.id, (err, data) => {
         if (err) {
             return res.json({ success: false, error: err });
         }
-
-        dir = path.join(__basedir, 'public', 'uploads', data._id.toString());
-        fs.readdir(dir, (err, items) => {
+        Picture.getIds(data._id, (err, pictures) => {
             if (err) {
-                console.log('ERROR: ', err);
+                return res.json({ success: false, error: err });
             }
-            res.json({ success: true, album: data, pictures: items });
+            // Add the photo IDs to the returned data from mongo
+            // This is why we use lean in our query statement
+            data.pictures = [];
+            if (pictures) {
+                for (let i = 0; i < pictures.length; i++) {
+                    data.pictures.push(pictures[i]._id);
+                }
+            }
+            return res.json({ success: true, album: data });
         });
-
-
     });
 });
 
-// POST //
+//// POSTs ////
+
+/**
+ * Create new photo album
+ */
 router.post('/', (req, res, next) => {
     const newAlbum = new Album({
         name: req.body.name,
@@ -60,11 +70,12 @@ router.post('/', (req, res, next) => {
     });
 });
 
-// router.post('/:id/pictures', upload.single('picture'), (req, res) => {
 
-// });
+//// PUT ////
 
-// PUT //
+/**
+ * Update photo album based off album ID
+ */
 router.put('/:id', (req, res, next) => {
     Album.get(req.params.id, (err, album) => {
         if (err || !album) {
@@ -87,13 +98,34 @@ router.put('/:id', (req, res, next) => {
     });
 });
 
-// DELETE //
+//// DELETE ////
+
+/**
+ * Delete photo album based off album ID
+ */
 router.delete('/:id', (req, res, next) => {
-    Album.remove(req.params.id, (err, data) => {
+    const albumId = req.params.id;
+
+    // First, remove all photos in album
+    Picture.getIds(albumId, (err, pictures) => {
         if (err) {
             return res.json({ success: false, error: err });
         }
-        res.json({ success: true, data: data });
+        for (let i = 0; i < pictures.length; i++) {
+            Picture.deleteById(pictures[i]._id, (err) => {
+                if (err) {
+                    return res.json({ success: false, error: err });
+                }
+            });
+        }
+
+        // Second, remove the album itself.
+        Album.remove(req.params.id, (err, data) => {
+            if (err) {
+                return res.json({ success: false, error: err });
+            }
+            res.json({ success: true, data: data });
+        });
     });
 });
 

@@ -5,11 +5,9 @@ mongoose.Promise = require('bluebird');
 const AlbumSchema = mongoose.Schema({
     name: { type: String, required: true },
     description: { type: String },
-    pictures: [{
-        data: Buffer,
-        contentType: String,
-    }]
-});
+}, { usePushEach: true });
+
+// AlbumSchema.toObject();
 
 const Album = module.exports = mongoose.model('album', AlbumSchema);
 
@@ -26,11 +24,18 @@ module.exports.remove = (id, callback) => {
 };
 
 module.exports.get = (id, callback) => {
-    Album.findById(id, callback);
+    // We use lean so Mongo returns an JSON object instead of a mongo object
+    // This is needed because we modify the return object in routes/albums.js
+    Album.findById(id).lean().exec(callback);
 };
 
 module.exports.getAll = (callback) => {
-    Album.find()
-        .select('-pictures')
+    Album.find(callback)
+};
+
+module.exports.getPicture = (id, callback) => {
+    // Non GridFS Way
+    Album.findById(id)
+        .select('pictures')
         .exec(callback);
 };

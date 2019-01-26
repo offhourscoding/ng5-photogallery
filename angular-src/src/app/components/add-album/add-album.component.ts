@@ -14,8 +14,8 @@ export class AddAlbumComponent implements OnInit {
 
   addAlbumForm: FormGroup;
 
-  constructor(private albumService: AlbumService, private fb: FormBuilder, public dialogRef: MatDialogRef<AddAlbumComponent>,
-  @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(private _albumServive: AlbumService, private fb: FormBuilder, public dialogRef: MatDialogRef<AddAlbumComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
     this.addAlbumForm = this.fb.group({
@@ -30,9 +30,9 @@ export class AddAlbumComponent implements OnInit {
 
   submitAlbumClick() {
     const album = new Album(this.addAlbumForm.controls.albumName.value, this.addAlbumForm.controls.albumDescription.value);
-    this.albumService.addAlbum(album)
-      .subscribe((res) => {
-        this.dialogRef.close(res);
-      });
+    this._albumServive.addAlbum(album)
+    .subscribe((res) => {
+      this.dialogRef.close(res);
+    });
   }
 }

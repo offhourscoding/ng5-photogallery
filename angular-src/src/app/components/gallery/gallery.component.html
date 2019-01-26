@@ -4,6 +4,10 @@
     <div class="header">
         <h1>{{ album.name }}</h1>
         <p *ngIf="album.description">{{ album.description }}</p>
+        <button mat-raised-button color="warn" (click)="deleteAlbum()">
+          <mat-icon>delete</mat-icon>
+          Remove Album
+        </button>
     </div>
 
     <div class="wrapper">
@@ -23,9 +27,9 @@
                 </mat-card-subtitle>
                 <mat-card-actions>
                     <button mat-raised-button color="primary" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
-            <mat-icon>add</mat-icon>
-            Upload
-          </button>
+                        <mat-icon>add</mat-icon>
+                        Upload
+                    </button>
                 </mat-card-actions>
                 <mat-card-content>
                     <table class="table" style="width: 100%;">
@@ -46,8 +50,8 @@
                                 </td>
                                 <td nowrap>
                                     <button mat-button type="button" (click)="item.remove()">
-                    Remove
-                  </button>
+                                        Remove
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -59,10 +63,10 @@
         <!-- Images -->
         <div class="content">
             <mat-card class="card" *ngFor="let picture of pictures">
-                <a [href]="picture" target="_blank">
-                    <img class="card-img" [src]="picture" alt="image">
+                <a [href]="picture.url" target="_blank">
+                    <img class="card-img" [src]="picture.picture" alt="image">
                 </a>
-                <button mat-raised-button color="warn">Remove</button>
+                <button mat-raised-button (click)="deletePicture(picture.id)" color="warn">Remove</button>
             </mat-card>
         </div>
     </div>

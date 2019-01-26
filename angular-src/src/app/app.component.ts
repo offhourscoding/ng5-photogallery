@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { NavbarService } from './services/navbar.service';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  state: boolean = false;
+
+  constructor(private _navService: NavbarService) { }
+
+  ngOnInit() {
+    this._navService.sidebarState.subscribe(res => this.state = res);
+  }
 }
